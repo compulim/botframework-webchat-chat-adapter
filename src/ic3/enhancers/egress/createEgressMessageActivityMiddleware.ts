@@ -49,7 +49,9 @@ export default function createEgressMessageActivityMiddleware(): EgressMiddlewar
     };
 
     // attach client activity id tag
-    message.tags.push("client_activity_id:" + activity.id);
+    if(activity.channelData && activity.channelData.clientActivityID){
+      message.tags.push("client_activity_id:" + activity.channelData.clientActivityID);
+    }
 
     if (channelData.uploadedFileMetadata) {
       await conversation.sendFileMessage(

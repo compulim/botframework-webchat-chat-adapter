@@ -92,13 +92,7 @@ export default function exportDLJSInterface<TAdapterState extends AdapterState>(
       postActivity(activity: IDirectLineActivity) {
         return new Observable(observer => {
           (async function () {
-            try{
-              activity.id = activity.channelData.clientActivityID as string;
-            }
-            catch(error){
-              console.error("Failed to convert clientActivityId to string: ", activity);
-              activity.id = uniqueId();
-            }
+            activity.id = uniqueId();
             await adapter.egress(activity, 
               {
               progress: ({ id }: { id?: string }) => id && observer.next(id)

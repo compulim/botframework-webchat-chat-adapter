@@ -19,14 +19,17 @@ export default function createPatchFromRoleAndNameMiddleware(): IngressMiddlewar
 
     // TODO: Why use "id.includes" instead of string equal?
     const patchedRole = role === Role.Channel ? role : id.includes(userId) ? Role.User : Role.Bot;
+    console.log("patching activity: ", activity, " role: ", role);
 
-    return next({
+    //Taking out for easier debugging
+    let patchedActivity = {
       ...activity,
       from: {
         id,
         role: patchedRole,
         name: (patchedRole === Role.User && getState(StateKey.UserDisplayName)) || name
       }
-    });
+    }
+    return next(patchedActivity);
   };
 }

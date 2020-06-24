@@ -92,12 +92,18 @@ export default function exportDLJSInterface<TAdapterState extends AdapterState>(
       postActivity(activity: IDirectLineActivity) {
         return new Observable(observer => {
           (async function () {
+            try{
+              activity.id = activity.channelData.clientActivityID as string;
+            }
+            catch(error){
+              console.error("Failed to convert clientActivityId to string: ", activity);
+              activity.id = uniqueId();
+            }
             await adapter.egress(activity, 
               {
               progress: ({ id }: { id?: string }) => id && observer.next(id)
             });
-            await adapter.ingress({...activity, id: uniqueId()});
-
+            // await adapter.ingress({...activity/*, id: uniqueId()*/}); //No need to call ingress as IC3 is providing echo back. If we need this for DL, a new class for IC3 should be created
             observer.complete();
           })();
         });

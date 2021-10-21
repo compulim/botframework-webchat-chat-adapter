@@ -8,6 +8,10 @@
   "author": "William Wong <compulim@hotmail.com> (http://compulim.info/)",
   "license": "MIT",
   "browser": "dist/chat-adapter.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/compulim/botframework-webchat-chat-adapter.git"
+  },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
